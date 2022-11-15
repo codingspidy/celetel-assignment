@@ -14,15 +14,25 @@ import { useState } from "react";
 import logo from "../images/celetel-logo.png";
 import Dropdown from "./Dropdown";
 
-export default function NavDrawer() {
-  const [searchInput, setSearchInput] = useState('');
+export default function NavDrawer({ usersData, setFilteredUsers }) {
+  const [searchInput, setSearchInput] = useState("");
   const [navOpen, setNavOpen] = useState();
   const handleToggle = () => {
     setNavOpen((prev) => !prev);
   };
+  const searchItems = (searchValue) => {
+    setSearchInput(searchValue);
+      let filteredData = usersData.filter((item) => {
+        return Object.values(item)
+          .join("")
+          .toLowerCase()
+          .includes(searchInput.toLowerCase());
+      });
+      setFilteredUsers(filteredData);
+  };
   return (
     <div className="">
-      <header className="relative bg-white xl:bg-transparent flex justify-between px-4 xl:px-12 py-[10px] lg:py-3">
+      <header className="relative bg-white xl:bg-transparent flex justify-between px-4 xl:px-12 py-[10px] xl:py-3">
         <div className="w-full max-w-[200px] flex items-center gap-3">
           <BarsIcon
             className="h-6 w-6 sm:h-7 sm:w-7 text-black cursor-pointer"
@@ -38,7 +48,7 @@ export default function NavDrawer() {
           />
         </div>
 
-        <div className="w-[92%] xl:w-full max-w-xl xl:max-w-3xl mx-auto absolute top-24 lg:top-28 xl:top-3 left-1/2 -translate-x-1/2">
+        <div className="w-[92%] xl:w-full max-w-xl xl:max-w-3xl mx-auto absolute top-24 sm:top-28 xl:top-3 left-1/2 -translate-x-1/2">
           <div className="relative flex items-center w-full h-12 rounded-lg shadow-lg bg-white overflow-hidden px-2">
             <SearchIcon className="h-5 w-12 text-gray-500" />
             <input
@@ -46,7 +56,8 @@ export default function NavDrawer() {
               type="text"
               id="search"
               placeholder="Search"
-              onChange={(e) => setSearchInput(e)}
+              value={searchInput}
+              onChange={(e) => searchItems(e.target.value)}
             />
           </div>
         </div>
@@ -65,7 +76,7 @@ export default function NavDrawer() {
       >
         <div className="w-full max-w-[250px] flex items-center justify-between mb-12">
           <Image
-            className="w-24 lg:w-32 object-contain"
+            className="w-24 xl:w-32 object-contain"
             src={logo}
             alt=""
             width={585}

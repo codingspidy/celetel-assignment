@@ -11,22 +11,22 @@ const TR = (user) => {
   return (
     <tr className="border-b last:border-b-0 border-gray-300">
       <td className="px-12 py-4 w-full">
-        <span className="font-medium text-sm lg:text-base whitespace-nowrap">
+        <span className="font-medium text-sm xl:text-base whitespace-nowrap">
           {username}
         </span>
       </td>
       <td className="px-12 py-4 w-full">
-        <span className="font-medium text-sm lg:text-base whitespace-nowrap">
+        <span className="font-medium text-sm xl:text-base whitespace-nowrap">
           {email}
         </span>
       </td>
       <td className="px-12 py-4 w-full">
-        <span className="font-medium text-sm lg:text-base whitespace-nowrap">
+        <span className="font-medium text-sm xl:text-base whitespace-nowrap">
           {phone}
         </span>
       </td>
       <td className="px-12 py-4 w-full">
-        <span className="font-medium text-sm lg:text-base whitespace-nowrap">
+        <span className="font-medium text-sm xl:text-base whitespace-nowrap">
           {company}
         </span>
       </td>
@@ -85,7 +85,7 @@ export default function Table({ usersData, setUsersData }) {
     <div className="overflow-x-auto scrollbar-hide">
       {showUpdateForm && <UpdateForm setUsersData={setUsersData} />}
       <table className="min-w-full table-auto bg-white shadow-xl rounded-sm py-8">
-        <thead className="text-xs lg:text-sm text-left border-b border-gray-300">
+        <thead className="text-xs xl:text-sm text-left border-b border-gray-300">
           <tr className="">
             <th className="px-12 py-4 pt-6 font-medium">
               <span>Username</span>

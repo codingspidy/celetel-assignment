@@ -10,9 +10,11 @@ import AddForm from "../components/AddForm";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { modalActions } from "../store";
+import { getSession } from "next-auth/react";
 
 export default function Home() {
   const [usersData, setUsersData] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const dispatch = useDispatch();
   const showAddForm = useSelector((state) => state.showAddForm);
 
@@ -22,26 +24,26 @@ export default function Home() {
 
   return (
     <div className="bg-gray-100 h-screen">
-      <NavDrawer />
+      <NavDrawer usersData={usersData} setFilteredUsers={setFilteredUsers} />
       <main className="flex w-full">
         <div className="h-screen min-w-[250px] hidden xl:block" />
 
-        <div className="w-full relative mt-32 xl:mt-0 px-5 lg:px-10 py-4 pb-20 lg:py-16">
+        <div className="w-full relative mt-32 xl:mt-0 px-5 xl:px-10 py-4 pb-20 xl:py-16">
           <div className="">
-            <h3 className="text-2xl lg:text-4xl font-semibold mb-10">
+            <h3 className="text-2xl xl:text-4xl font-semibold mb-5 xl:mb-10">
               Customer Details
             </h3>
-            <div className="w-full flex flex-col sm:flex-row gap-2 justify-between mb-6">
-              <h4 className="text-base lg:text-xl font-medium">
+            <div className="w-full xl:max-w-[93%] 2xl:max-w-full flex flex-col sm:flex-row gap-2 justify-between mb-6">
+              <h4 className="text-base xl:text-xl font-medium">
                 The terms you are tracking
               </h4>
               <div className="flex gap-3">
-                <button className="text-sm lg:text-base flex items-center gap-2 border-2 py-1 rounded-xl px-5 text-gray-600 border-gray-600">
+                <button className="text-sm xl:text-base flex items-center gap-2 border-2 py-1 rounded-xl px-5 text-gray-600 border-gray-600">
                   <FilterIcon className="h-5 w-5" />
                   Filter
                 </button>
                 <button
-                  className="text-sm lg:text-base flex items-center gap-2 py-1 rounded-xl px-5 text-white bg-orange-600"
+                  className="text-sm xl:text-base flex items-center gap-2 py-1 rounded-xl px-5 text-white bg-orange-600"
                   onClick={handleModal}
                 >
                   <PlusIcon className="h-4 w-4" />
@@ -50,13 +52,24 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <Table setUsersData={setUsersData} usersData={usersData} />
+          <Table
+            setUsersData={setUsersData}
+            usersData={filteredUsers.length === 0 ? usersData : filteredUsers}
+          />
 
-          {showAddForm ? (
-            <AddForm setUsersData={setUsersData} />
-          ) : null}
+          {showAddForm ? <AddForm setUsersData={setUsersData} /> : null}
         </div>
       </main>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  return {
+    props: {
+      session,
+    }
+  }
 }
