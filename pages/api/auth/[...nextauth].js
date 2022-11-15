@@ -12,4 +12,11 @@ export default NextAuth({
   pages: {
     signIn: "/login",
   },
+  callbacks: {
+    redirect: async (url, baseUrl) => {
+      return url.startsWith(baseUrl)
+        ? Promise.resolve(url)
+        : Promise.resolve(baseUrl);
+    },
+  },
 });
