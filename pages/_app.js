@@ -4,17 +4,15 @@ import store from "../store";
 import "../styles/index.css";
 import { SessionProvider } from "next-auth/react";
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+function MyApp({ Component,  ...pageProps }) {
   return (
     <>
       <Head>
         <title>Celetel Assignment</title>
       </Head>
-      <SessionProvider session={session}>
         <Provider store={store}>
           <Component {...pageProps} />
         </Provider>
-      </SessionProvider>
     </>
   );
 }
